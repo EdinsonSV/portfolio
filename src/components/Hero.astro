@@ -1,0 +1,327 @@
+---
+import { cvData } from '../data/cv';
+import { Mail, MapPin, Terminal } from 'lucide-astro';
+---
+
+<section id="about" class="hero-section">
+  <div class="container hero-container">
+    <div class="hero-content">
+      <div class="terminal-window fade-in-up">
+        <div class="terminal-header">
+          <div class="terminal-buttons">
+            <span class="close"><span class="btn-icon">×</span></span>
+            <span class="minimize"><span class="btn-icon">−</span></span>
+            <span class="maximize"><span class="btn-icon expand">⤢</span></span>
+          </div>
+          <div class="terminal-title">developer_profile.exe</div>
+        </div>
+        <div class="terminal-body">
+          <div class="command-line">
+            <span class="prompt">$</span>
+            <span class="command">whoami</span>
+          </div>
+          <div class="response">
+            <h1 class="name">Edinson Santos<span class="cursor">_</span></h1>
+            <h2 class="role">{cvData.personalInfo.role}</h2>
+          </div>
+          
+          <div class="command-line delay-200">
+            <span class="prompt">$</span>
+            <span class="command">cat profile.txt</span>
+          </div>
+          <p class="profile-text delay-300">
+            {cvData.personalInfo.profile}
+          </p>
+
+          <div class="command-line delay-400">
+            <span class="prompt">$</span>
+            <span class="command">ls contacts/</span>
+          </div>
+          <div class="contact-info delay-500">
+            <div class="info-item">
+              <MapPin size={16} class="icon" />
+              <span>{cvData.personalInfo.location}</span>
+            </div>
+            <a href={`mailto:${cvData.personalInfo.email}`} class="info-item link">
+              <Mail size={16} class="icon" />
+              <span>{cvData.personalInfo.email}</span>
+            </a>
+          </div>
+
+          <div class="actions delay-600">
+            <a href="/cv.pdf" download="CV_Edinson_Santos.pdf" class="btn btn-git">
+              <span class="git-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              </span>
+              <span class="prompt">$</span>
+              <span class="command">git clone cv.pdf</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Code decoration elements floating -->
+    <div class="code-decoration code-1">
+      const dev = new Developer();
+    </div>
+    <div class="code-decoration code-2">
+      {'while(alive) { code(); }'}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: var(--header-height);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-container {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Terminal Window */
+  .terminal-window {
+    background: rgba(18, 18, 18, 0.9);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .terminal-header {
+    background: #1a1a1a;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .terminal-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .terminal-buttons span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+  }
+
+  .terminal-buttons span:hover {
+    transform: scale(1.1);
+  }
+
+  .btn-icon {
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .terminal-buttons:hover .btn-icon {
+    opacity: 1;
+  }
+
+  .close { background: #ff5f56; }
+  .minimize { background: #ffbd2e; }
+  .maximize { background: #27c93f; }
+
+  .terminal-title {
+    flex: 1;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .terminal-body {
+    padding: 2rem;
+    font-family: var(--font-mono);
+  }
+
+  /* Content */
+  .command-line {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    color: var(--color-secondary);
+  }
+  
+  .prompt {
+    color: var(--color-accent);
+    font-weight: bold;
+  }
+
+  .response {
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+  }
+
+  .name {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, #fff, var(--color-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .role {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+
+  .profile-text {
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    color: var(--color-text-main);
+  }
+
+  .contact-info {
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  .info-item.link:hover {
+    color: var(--color-primary);
+  }
+
+  .icon {
+    color: var(--color-secondary);
+  }
+
+  .actions {
+    padding-left: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-main);
+    background: transparent;
+    font-family: var(--font-mono);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  /* Animations */
+  .cursor {
+    display: inline-block;
+    width: 10px;
+    background: var(--color-primary);
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Floating Code */
+  .code-decoration {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.05);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .code-1 {
+    top: 20%;
+    right: 10%;
+    transform: rotate(15deg);
+  }
+
+  .code-2 {
+    bottom: 20%;
+    left: 5%;
+    transform: rotate(-10deg);
+  }
+  
+  @media (max-width: 768px) {
+    .name { font-size: 2rem; }
+    .role { font-size: 1.2rem; }
+    .terminal-body { padding: 1.5rem; }
+  }
+  /* Light Mode Overrides */
+  :global(html.light-mode) .name {
+    /* Gradiente vibrante: Azul Oscuro Profundo a Azul Eléctrico */
+    background: linear-gradient(135deg, #023e8a 0%, #0096c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(0, 150, 199, 0.3)); /* Sutil sombra de color */
+  }
+
+  :global(html.light-mode) .role {
+    color: #0474C0;
+    font-weight: 700;
+  }
+
+  :global(html.light-mode) .terminal-window {
+    background: #ffffff;
+    /* Sombra más marcada y con tinte azulado para dar "depth" */
+    box-shadow: 0 20px 60px -10px rgba(4, 116, 192, 0.25);
+    border: 1px solid rgba(4, 116, 192, 0.1);
+  }
+
+  :global(html.light-mode) .btn-icon {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  :global(html.light-mode) .terminal-header {
+    background: #f3f4f6; /* Ensure light gray header */
+    border-bottom-color: #d1d5db;
+  }
+
+  :global(html.light-mode) .terminal-title {
+    color: #374151; /* Dark Gray text */
+  }
+
+  :global(html.light-mode) .code-decoration {
+    color: rgba(0, 0, 0, 0.05);
+  }
+</style>

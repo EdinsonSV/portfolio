@@ -1,0 +1,222 @@
+---
+import { cvData } from '../data/cv';
+---
+
+<footer id="contact" class="footer section">
+  <div class="container footer-content">
+    <div class="footer-cta">
+      <h2>¿Interesado en trabajar juntos?</h2>
+      <p class="cta-text">Estoy siempre abierto a discutir nuevos proyectos, ideas creativas o oportunidades para ser parte de tus visiones.</p>
+      
+      <div class="terminal-input-wrapper" id="terminal-contact">
+        <span class="prompt">visitor@linux:~$</span>
+        <input type="text" class="terminal-input" value="./send_message.sh" id="cmd-input" spellcheck="false" autocomplete="off" />
+        <span class="cursor-block"></span>
+      </div>
+      <p class="terminal-hint">// Presiona <span class="key">Enter</span> para ejecutar</p>
+    </div>
+
+    <div class="terminal-footer">
+      <div class="line">
+        <span class="user">edinson@dev</span><span class="separator">:</span><span class="path">~/portfolio</span><span class="branch">(main)</span>
+        <span class="prompt">$</span> <span class="cmd">cat copyright.txt</span>
+      </div>
+      <div class="response">
+        &copy; {new Date().getFullYear()} Edinson Santos Vilchez. Todos los derechos reservados. <span class="cursor">_</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script define:vars={{ email: cvData.personalInfo.email }}>
+  const input = document.getElementById('cmd-input');
+  const wrapper = document.getElementById('terminal-contact');
+
+  // Focus input when clicking wrapper
+  wrapper?.addEventListener('click', () => input?.focus());
+
+  // Handle Enter key
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      window.location.href = `mailto:${email}`;
+      input.value = 'Hacking email client...';
+      
+      setTimeout(() => {
+        input.value = './send_message.sh';
+      }, 2000);
+    }
+  });
+</script>
+
+<style>
+  .footer {
+    background: rgba(10, 10, 10, 0.9);
+    border-top: 1px solid var(--color-border);
+    padding: 2rem 0;
+    margin-top: 4rem;
+  }
+
+  .footer-content {
+    display: flex;
+    justify-content: center;
+  }
+
+  .terminal-footer {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin-bottom: 0.25rem;
+    justify-content: center;
+  }
+
+  .user { color: #9ece6a; }
+  .separator { color: #fff; }
+  .path { color: #7aa2f7; }
+  .branch { color: #e0af68; }
+  .prompt { color: #bb9af7; }
+  .cmd { color: #c0caf5; }
+  
+  .response {
+    color: #a9b1d6;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .cursor {
+    color: var(--color-primary);
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @media (max-width: 768px) {
+    .terminal-footer {
+      font-size: 0.8rem;
+    }
+  }
+
+  .footer-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    max-width: 600px;
+    padding: 0 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .footer-cta h2 {
+    font-size: 2rem;
+    margin: 0;
+    color: #ffffff; /* Always white */
+  }
+
+  .cta-text {
+    color: #a0a0a0; /* Always light gray */
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .terminal-input-wrapper {
+    display: flex;
+    align-items: center;
+    background: #1a1b26;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #7aa2f7;
+    width: 100%;
+    max-width: 500px;
+    font-family: var(--font-mono);
+    box-shadow: 0 4px 20px rgba(122, 162, 247, 0.15);
+    transition: all 0.3s ease;
+    cursor: text;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 480px) {
+    .terminal-input-wrapper {
+      padding: 0.8rem 1rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    
+    .prompt {
+      margin-right: 0;
+      font-size: 0.9rem;
+    }
+
+    .terminal-input {
+      width: 100%;
+    }
+  }
+
+  .terminal-input-wrapper:focus-within {
+    box-shadow: 0 0 25px rgba(122, 162, 247, 0.3);
+    border-color: #bb9af7;
+  }
+
+  .prompt {
+    color: #9ece6a;
+    margin-right: 0.8rem;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .terminal-input {
+    background: transparent;
+    border: none;
+    color: #c0caf5;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    flex: 1;
+    outline: none;
+    width: 100%;
+    font-weight: 500;
+  }
+
+  /* Blinking cursor effect overlay or similar if needed, 
+     but input caret is usually enough. Adding custom block cursor style */
+  .terminal-input {
+    caret-color: #7aa2f7;
+  }
+
+  .terminal-hint {
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    opacity: 0.7;
+  }
+
+  .key {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+</style>

@@ -1,0 +1,105 @@
+<canvas id="matrix-bg"></canvas>
+
+<style>
+  #matrix-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.15;
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById('matrix-bg') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d');
+
+  let width = 0;
+  let height = 0;
+  let columns = 0;
+  const fontSize = 14;
+  const drops: number[] = [];
+  
+  const chars = "10";
+
+  let isLightMode = false;
+
+  const checkTheme = () => {
+    isLightMode = document.documentElement.classList.contains('light-mode');
+  };
+
+  const init = () => {
+    checkTheme();
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    
+    columns = Math.floor(width / fontSize);
+    
+    drops.length = 0;
+    for (let i = 0; i < columns; i++) {
+      drops[i] = Math.random() * -100;
+    }
+  };
+
+  const draw = () => {
+    if (!ctx) return;
+
+    // Adjust fade color based on theme
+    if (isLightMode) {
+      ctx.fillStyle = 'rgba(243, 244, 246, 0.1)'; // Lighter fade for white bg
+    } else {
+      ctx.fillStyle = 'rgba(10, 10, 10, 0.05)'; // Darker fade for dark bg
+    }
+    
+    ctx.fillRect(0, 0, width, height);
+
+    if (isLightMode) {
+      ctx.fillStyle = 'rgba(4, 116, 192, 0.3)'; // Softer blue for light mode
+    } else {
+      ctx.fillStyle = '#0474C0'; 
+    }
+    
+    ctx.font = `${fontSize}px monospace`;
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = chars.charAt(Math.floor(Math.random() * chars.length));
+      
+      const x = i * fontSize;
+      const y = drops[i] * fontSize;
+
+      ctx.fillText(text, x, y);
+
+      if (y > height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+
+      drops[i]++;
+    }
+  };
+
+  // Listen for theme changes
+  window.addEventListener('themeChanged', () => {
+    checkTheme();
+    // Force clear to change background immediately
+    if (ctx) {
+        ctx.fillStyle = isLightMode ? '#f3f4f6' : '#0a0a0a';
+        ctx.fillRect(0,0,width,height);
+    }
+  });
+
+  init();
+
+  const animate = () => {
+    draw();
+    requestAnimationFrame(animate);
+  };
+  
+  animate();
+
+  window.addEventListener('resize', init);
+</script>

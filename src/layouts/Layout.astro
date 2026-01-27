@@ -1,0 +1,48 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import BackgroundMatrix from '../components/BackgroundMatrix.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Portafolio de Edinson Santos Vilchez - Desarrollador Full Stack" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    
+    <!-- Google Fonts: JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet">
+    
+    <ViewTransitions />
+  </head>
+  <body>
+    <BackgroundMatrix />
+    <div class="main-content">
+      <slot />
+    </div>
+  </body>
+</html>
+
+<style>
+  .main-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+</style>

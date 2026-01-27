@@ -1,0 +1,491 @@
+---
+---
+<header class="navbar" id="navbar">
+  <div class="container navbar-content">
+    <a href="#" class="logo">
+      <span class="bracket">&lt;</span>Edinson<span class="cursor">_</span><span class="bracket">/&gt;</span>
+    </a>
+    <nav class="nav-wrapper">
+      <ul class="nav-links">
+        <li><a href="#about" class="nav-link"><span class="hash">#</span>Sobre_mí</a></li>
+        <li><a href="#experience" class="nav-link"><span class="hash">#</span>Experiencia</a></li>
+        <li><a href="#skills" class="nav-link"><span class="hash">#</span>Skills</a></li>
+        <li><a href="#education" class="nav-link"><span class="hash">#</span>Educación</a></li>
+      </ul>
+      
+      <!-- Desktop Toggle (Visible on Desktop) - COMMENTED OUT FOR NOW
+      <button id="theme-toggle" class="theme-toggle desktop-only-toggle" aria-label="Cambiar tema">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+      </button>
+      -->
+
+      <a href="#contact" class="btn btn-code nav-contact-btn">
+        <span class="fn-name">contact</span><span class="parens">(</span><span class="string">'me'</span><span class="parens">)</span>
+      </a>
+    </nav>
+    
+    <div class="nav-actions">
+      <!-- Mobile Toggle (Visible on Mobile) - COMMENTED OUT FOR NOW
+      <button id="mobile-theme-toggle" class="theme-toggle mobile-only-toggle" aria-label="Cambiar tema">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+      </button>
+      -->
+
+      <div class="menu-toggle" id="menu-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </div>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <div class="close-btn" id="close-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </div>
+      <ul>
+        <li><a href="#about" class="mobile-link"><span class="hash">#</span>Sobre_mí</a></li>
+        <li><a href="#experience" class="mobile-link"><span class="hash">#</span>Experiencia</a></li>
+        <li><a href="#skills" class="mobile-link"><span class="hash">#</span>Skills</a></li>
+        <li><a href="#education" class="mobile-link"><span class="hash">#</span>Educación</a></li>
+        <li>
+          <a href="#contact" class="mobile-link btn btn-code">
+            <span class="fn-name">contact</span><span class="parens">(</span><span class="string">'me'</span><span class="parens">)</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  const menuBtn = document.getElementById('menu-btn');
+  const closeBtn = document.getElementById('close-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const navLinks = document.querySelectorAll('.mobile-link');
+
+  const toggleMenu = () => {
+    mobileMenu?.classList.toggle('active');
+    menuBtn?.classList.toggle('hidden'); // Hide hamburger when open
+    document.body.classList.toggle('no-scroll');
+  };
+
+  menuBtn?.addEventListener('click', toggleMenu);
+  closeBtn?.addEventListener('click', toggleMenu);
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.remove('active');
+      menuBtn?.classList.remove('hidden'); // Show hamburger when closed
+      document.body.classList.remove('no-scroll');
+    });
+  });
+  
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      navbar?.classList.add('scrolled');
+    } else {
+      navbar?.classList.remove('scrolled');
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  handleScroll(); 
+
+  // Theme Toggle Logic
+  const themeToggle = document.getElementById('theme-toggle');
+  const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+  const htmlElement = document.documentElement;
+
+  const getTheme = (): string => {
+    return 'dark'; 
+  };
+
+  const setTheme = (theme: string) => {
+    if (theme === 'light') {
+      htmlElement.classList.add('light-mode');
+    } else {
+      htmlElement.classList.remove('light-mode');
+    }
+    localStorage.setItem('theme', theme);
+    // Dispatch event for other components (like Canvas)
+    window.dispatchEvent(new Event('themeChanged'));
+  };
+
+  // set initial theme
+  setTheme(getTheme());
+
+  const handleToggle = () => {
+    const isLight = htmlElement.classList.contains('light-mode');
+    setTheme(isLight ? 'dark' : 'light');
+  };
+
+  // themeToggle?.addEventListener('click', handleToggle);
+  // mobileThemeToggle?.addEventListener('click', handleToggle);
+
+  // Re-apply script on View Transition navigation if needed (optional in Astro)
+  document.addEventListener('astro:after-swap', () => {
+    setTheme(getTheme());
+  });
+</script>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+  }
+
+  .navbar.scrolled {
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom-color: var(--color-border);
+  }
+
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    z-index: 1001; /* Above mobile menu */
+  }
+
+  .bracket { color: var(--color-secondary); }
+  .cursor { color: var(--color-primary); animation: blink 1s step-end infinite; }
+  
+  .menu-toggle {
+    cursor: pointer;
+    color: #fff;
+    z-index: 1002;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .menu-toggle.hidden {
+    opacity: 0;
+    transform: rotate(90deg);
+    pointer-events: none;
+  }
+
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .mobile-menu.active {
+    transform: translateY(0);
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    cursor: pointer;
+    color: #fff;
+    z-index: 1003;
+  }
+
+  .mobile-menu ul {
+    list-style: none;
+    text-align: center;
+    padding: 0;
+  }
+
+  .mobile-menu li {
+    margin: 1.5rem 0;
+  }
+
+  .mobile-link {
+    font-size: 1.5rem;
+    font-family: var(--font-mono);
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .mobile-link:hover {
+    color: var(--color-primary);
+  }
+
+  /* Desktop Menu */
+  .nav-wrapper {
+    display: none;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    position: relative;
+  }
+
+  .nav-link:hover { color: var(--color-primary); }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-primary);
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover::after { width: 100%; }
+  
+  .hash { color: var(--color-secondary); margin-right: 2px; }
+
+  /* Light Mode Navbar Overrides */
+  /* When NOT scrolled (Top), standard Light Mode applies (Dark text on transparent/light bg) */
+  :global(html.light-mode) .logo {
+    color: var(--color-text-main);
+  }
+
+  :global(html.light-mode) .nav-link {
+    color: var(--color-text-main);
+  }
+
+  :global(html.light-mode) .menu-toggle {
+    color: var(--color-text-main);
+  }
+  
+  :global(html.light-mode) .theme-toggle {
+    color: var(--color-text-main);
+  }
+
+  /* Scrolled: ALWAYS Dark background, Light text (User Request) */
+  .navbar.scrolled {
+    background: rgba(10, 10, 10, 0.95) !important; /* Force dark bg */
+    backdrop-filter: blur(10px);
+    border-bottom-color: #333 !important;
+  }
+
+  /* Force light colors when scrolled, even in Light Mode */
+  :global(html.light-mode) .navbar.scrolled .logo,
+  :global(html.light-mode) .navbar.scrolled .nav-link,
+  :global(html.light-mode) .navbar.scrolled .menu-toggle,
+  :global(html.light-mode) .navbar.scrolled .theme-toggle {
+    color: #e0e0e0;
+  }
+
+  :global(html.light-mode) .navbar.scrolled .nav-link:hover,
+  :global(html.light-mode) .navbar.scrolled .theme-toggle:hover {
+    color: var(--color-primary);
+  }
+
+  :global(html.light-mode) .navbar.scrolled .nav-link:hover,
+  :global(html.light-mode) .navbar.scrolled .theme-toggle:hover {
+    color: var(--color-primary);
+  }
+
+  /* Contact Button Special Handling for Scrolled Navbar in Light Mode */
+  :global(html.light-mode) .navbar.scrolled .btn-code {
+    background: rgba(255, 255, 255, 0.05); /* Restore dark mode bg */
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+    box-shadow: none;
+  }
+
+  :global(html.light-mode) .navbar.scrolled .btn-code .fn-name { color: #61afef; }
+  :global(html.light-mode) .navbar.scrolled .btn-code .parens { color: #e5c07b; }
+  :global(html.light-mode) .navbar.scrolled .btn-code .string { color: #98c379; }
+
+  :global(html.light-mode) .mobile-menu {
+    background: rgba(255, 255, 255, 0.98);
+  }
+
+  :global(html.light-mode) .mobile-link {
+    color: var(--color-text-main);
+  }
+  
+  :global(html.light-mode) .close-btn {
+    color: var(--color-text-main);
+  }
+
+  /* Code Button Base Styles from Global */
+  .btn-code {
+    font-family: var(--font-mono, monospace);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-border);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--color-text-main);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 0.9rem;
+  }
+
+  .btn-code:hover {
+    border-color: var(--color-secondary);
+    background: rgba(0, 219, 181, 0.1);
+    box-shadow: 0 0 15px rgba(0, 219, 181, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .fn-name { color: #61afef; }
+  .parens { color: #e5c07b; }
+  .string { color: #98c379; }
+
+  .nav-contact-btn {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .nav-wrapper {
+      display: flex;
+    }
+    
+    .menu-toggle {
+      display: none;
+    }
+
+    .mobile-menu {
+      display: none !important;
+    }
+
+    .nav-contact-btn {
+      display: inline-flex;
+    }
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Theme Toggle Styles */
+  .theme-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+
+  .theme-toggle:hover {
+    color: var(--color-primary);
+    transform: rotate(15deg);
+  }
+
+  .sun-icon, .moon-icon {
+    position: absolute;
+    transition: opacity 0.3s, transform 0.5s;
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Default (Dark Mode): Show Sun (to switch to light), Hide Moon */
+  .sun-icon { opacity: 1; transform: scale(1); }
+  .moon-icon { opacity: 0; transform: scale(0.5) rotate(90deg); }
+
+  /* Light Mode State (Global) applied to icons */
+  :global(html.light-mode) .sun-icon { 
+    opacity: 0; 
+    transform: scale(0.5) rotate(-90deg); 
+  }
+  :global(html.light-mode) .moon-icon { 
+    opacity: 1; 
+    transform: scale(1) rotate(0); 
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 100%;
+  }
+
+  /* Ensure vertical centering for mobile toggle */
+  .menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .toggle-text {
+    font-size: 1rem;
+  }
+  
+  /* Initial state (Mobile): Hide desktop specific items */
+  .nav-contact-btn {
+    display: none;
+  }
+  
+  .desktop-only-toggle {
+    display: none;
+  }
+
+  .mobile-only-toggle {
+    display: flex;
+  }
+
+  @media (min-width: 768px) {
+    .menu-toggle {
+      display: none;
+    }
+
+    .nav-contact-btn {
+      display: inline-flex;
+    }
+    
+    .mobile-only-toggle {
+      display: none;
+    }
+
+    .desktop-only-toggle {
+      display: flex;
+    }
+    
+    /* On desktop, nav-actions contains hidden items, so we can hide it or let it collapse */
+    .nav-actions {
+      display: none;
+    }
+  }
+</style>

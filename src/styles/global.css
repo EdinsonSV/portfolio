@@ -1,0 +1,462 @@
+/* Global Styles - Developer Theme */
+:root {
+  /* Color Palette */
+  --color-bg: #0a0a0a;
+  --color-bg-transparent: rgba(10, 10, 10, 0.8);
+  --color-surface: #121212;
+  --color-surface-hover: #1e1e1e;
+  
+  --color-primary: #0474C0; 
+  --color-primary-glow: rgba(4, 116, 192, 0.4);
+  --color-primary-dark: #035a96;
+  
+  --color-secondary: #00dbb5; 
+  --color-secondary-glow: rgba(0, 219, 181, 0.4);
+  
+  --color-accent: #ff0055;
+  
+  --color-text-main: #e0e0e0;
+  --color-text-muted: #a0a0a0;
+  --color-border: #333333;
+  --color-border-glow: rgba(255, 255, 255, 0.1);
+  
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  /* Spacing */
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+  
+  /* Layout */
+  --container-width: 1200px;
+  --header-height: 70px;
+}
+
+html.light-mode {
+  --color-bg: #f3f4f6;
+  --color-bg-transparent: rgba(243, 244, 246, 0.85);
+  --color-surface: #ffffff;
+  --color-surface-hover: #e5e7eb;
+  
+  --color-text-main: #1f2937;
+  --color-text-muted: #6b7280;
+  --color-border: #d1d5db;
+  --color-border-glow: rgba(0, 0, 0, 0.1);
+  
+  --color-primary-glow: rgba(4, 116, 192, 0.2);
+  --color-secondary-glow: rgba(0, 219, 181, 0.2);
+}
+
+html {
+  font-family: var(--font-mono);
+  background: var(--color-bg);
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+body {
+  background-color: transparent; /* Allow canvas background */
+  color: var(--color-text-main);
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Selection */
+::selection {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* Utilities */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
+}
+
+.section {
+  padding: 6rem 0;
+  position: relative;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: #fff;
+  font-weight: 700;
+  margin-top: 0;
+  line-height: 1.2;
+}
+
+html.light-mode h1, 
+html.light-mode h2, 
+html.light-mode h3, 
+html.light-mode h4, 
+html.light-mode h5, 
+html.light-mode h6 {
+  color: #111827; /* Casi negro para máximo contraste */
+  font-weight: 800; /* Un poco más de peso */
+}
+
+h1 { font-size: 3.5rem; }
+h2 { font-size: 2.5rem; }
+h3 { font-size: 1.75rem; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Common Components */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, rgba(4, 116, 192, 0.2), rgba(0, 219, 181, 0.1));
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  box-shadow: 0 0 15px rgba(4, 116, 192, 0.2), inset 0 0 20px rgba(4, 116, 192, 0.05);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--color-primary), #0099ff);
+  color: #fff;
+  box-shadow: 0 0 30px rgba(4, 116, 192, 0.5), 0 5px 20px rgba(4, 116, 192, 0.3);
+  transform: translateY(-2px);
+  border-color: transparent;
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+
+.btn-secondary:hover {
+  background: var(--color-secondary);
+  color: #000;
+  box-shadow: 0 0 25px rgba(0, 219, 181, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Code-style buttons */
+.btn-code {
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid var(--color-border);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  padding: 0.875rem 1.5rem;
+  text-transform: none;
+  letter-spacing: 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-code .fn-name {
+  color: #dcdcaa;
+}
+
+.btn-code .parens {
+  color: #d4d4d4;
+}
+
+.btn-code .string {
+  color: #ce9178;
+}
+
+.btn-code:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px rgba(4, 116, 192, 0.3), 0 4px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-code:hover .fn-name {
+  color: var(--color-primary);
+  text-shadow: 0 0 10px rgba(4, 116, 192, 0.5);
+}
+
+.btn-code.secondary:hover {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 20px rgba(0, 219, 181, 0.3), 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-code.secondary:hover .fn-name {
+  color: var(--color-secondary);
+  text-shadow: 0 0 10px rgba(0, 219, 181, 0.5);
+}
+
+/* Glow variant - more vibrant */
+.btn-code.glow {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 15px rgba(4, 116, 192, 0.3), 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-code.glow .fn-name {
+  color: var(--color-primary);
+}
+
+.btn-code.glow:hover {
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 30px rgba(0, 219, 181, 0.5), 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-code.glow:hover .fn-name {
+  color: var(--color-secondary);
+  text-shadow: 0 0 15px rgba(0, 219, 181, 0.7);
+}
+
+html.light-mode .btn-code {
+  background: #ffffff;
+  color: var(--color-text-main);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+html.light-mode .glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Glassmorphism Card */
+.glass-card {
+  background: rgba(18, 18, 18, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 15px rgba(4, 116, 192, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.fade-in-up {
+  opacity: 0; /* Star hidden */
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-600 { animation-delay: 600ms; }
+
+/* Git Style Button */
+.btn-git {
+  background: #0d1117; /* GitHub dark bg */
+  border: 1px solid #30363d;
+  color: #c9d1d9;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-git .git-icon {
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+}
+
+.btn-git .prompt {
+  color: var(--color-secondary); /* Green/Cyan prompt */
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+.btn-git .command {
+  font-weight: 600;
+  color: #fff;
+}
+
+.btn-git:hover {
+  border-color: var(--color-text-muted);
+  background: #161b22;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-git:hover .git-icon {
+  color: var(--color-primary);
+  transform: translateY(2px); /* Icon dips like downloading */
+  transition: transform 0.2s ease;
+}
+
+.btn-git:active {
+  transform: translateY(0);
+}
+
+/* Add a subtle green glow on hover to simulate success */
+.btn-git:hover .prompt {
+  color: #27c93f;
+  text-shadow: 0 0 8px rgba(39, 201, 63, 0.4);
+}
+
+/* Light Mode Override for Git Button */
+html.light-mode .btn-git {
+  background: #ffffff;
+  border-color: #d1d5db;
+  color: #4b5563;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+html.light-mode .btn-git .command {
+  color: #111827; /* Dark command text */
+}
+
+html.light-mode .btn-git .git-icon {
+  color: #6b7280;
+}
+
+html.light-mode .btn-git:hover {
+  background: #f9fafb;
+  border-color: var(--color-primary);
+  box-shadow: 0 4px 12px rgba(4, 116, 192, 0.15);
+}
+
+html.light-mode .btn-git:hover .git-icon {
+  color: var(--color-primary);
+}
+
+/* Outline Glow Button (Matches Navbar style but matches Hero context) */
+.btn-outline-glow {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.75rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-outline-glow:hover {
+  color: #fff;
+  box-shadow: 0 0 20px rgba(4, 116, 192, 0.4);
+  border-color: var(--color-primary);
+  background: rgba(4, 116, 192, 0.1);
+}
+
+.btn-outline-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background: var(--color-primary);
+  z-index: -1;
+  transition: width 0.3s ease;
+}
+
+.btn-outline-glow:hover::before {
+  width: 100%;
+}
