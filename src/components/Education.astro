@@ -1,6 +1,33 @@
 ---
 import { cvData } from '../data/cv';
 import { Package, Download, CheckCircle } from 'lucide-astro';
+import { DateTime } from 'luxon';
+
+const formatPeriod = (startDate: string, endDate: string | null) => {
+  const startYear = DateTime.fromISO(startDate).year.toString();
+  const endYear = endDate ? DateTime.fromISO(endDate).year.toString() : 'Actualidad';
+  return startYear === endYear ? startYear : `${startYear} – ${endYear}`;
+};
+
+const getStartYear = (startDate: string) => {
+  return DateTime.fromISO(startDate).year.toString();
+};
+
+const calculateTotalYears = () => {
+  if (!cvData.education.length) return 0;
+  
+  const startDates = cvData.education.map(edu => DateTime.fromISO(edu.startDate));
+  const minDate = DateTime.min(...startDates);
+  
+  const endDates = cvData.education.map(edu => edu.endDate ? DateTime.fromISO(edu.endDate) : DateTime.now());
+  const maxDate = DateTime.max(...endDates);
+  
+  if (!minDate || !maxDate) return 0;
+  
+  return maxDate.year - minDate.year;
+};
+
+const totalYears = calculateTotalYears();
 ---
 
 <section id="education" class="section">
@@ -15,7 +42,7 @@ import { Package, Download, CheckCircle } from 'lucide-astro';
             npm
           </span>
         </div>
-        <span class="terminal-title">edinson@dev:~/education</span>
+        <span class="terminal-title">C:\Users\edinson\education - npm</span>
         <div class="terminal-actions">
           <span class="action">─</span>
           <span class="action">□</span>
@@ -25,7 +52,7 @@ import { Package, Download, CheckCircle } from 'lucide-astro';
       
       <div class="terminal-body">
         <div class="command-line">
-          <span class="prompt">$</span>
+          <span class="prompt">&gt;</span>
           <span class="command">npm install knowledge --save-dev</span>
         </div>
         
@@ -39,7 +66,7 @@ import { Package, Download, CheckCircle } from 'lucide-astro';
                 <div class="package-header">
                   <Package size={16} class="package-icon" />
                   <span class="package-name">{edu.degree.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}</span>
-                  <span class="package-version">@{edu.period.split('–')[0].trim()}</span>
+                  <span class="package-version">@{getStartYear(edu.startDate)}</span>
                 </div>
                 <div class="package-details">
                   <span class="package-desc">{edu.degree}</span>
@@ -47,7 +74,7 @@ import { Package, Download, CheckCircle } from 'lucide-astro';
                 </div>
                 <div class="package-meta">
                   <span class="location">{edu.location}</span>
-                  <span class="date">{edu.period}</span>
+                  <span class="date">{formatPeriod(edu.startDate, edu.endDate)}</span>
                 </div>
               </div>
             </div>
@@ -56,7 +83,7 @@ import { Package, Download, CheckCircle } from 'lucide-astro';
         
         <div class="install-summary">
           <span class="success-text">✓ added {cvData.education.length} packages</span>
-          <span class="time-text">in 4 years</span>
+          <span class="time-text">in {totalYears} years</span>
         </div>
       </div>
     </div>
@@ -109,15 +136,19 @@ import { Package, Download, CheckCircle } from 'lucide-astro';
 
   .terminal-actions {
     display: flex;
-    padding-right: 0.5rem;
+    gap: 0.25rem;
+    padding-right: 1rem; /* Added padding to move them away from the edge */
   }
 
   .action {
-    padding: 0.5rem 0.75rem;
+    padding: 0.25rem 0.5rem;
     color: var(--color-text-muted);
-    font-size: 0.9rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .action:hover {

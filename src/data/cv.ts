@@ -5,12 +5,13 @@ export const cvData = {
     location: "Piura, Perú",
     email: "edinsonsanvil@gmail.com",
     phone: "+51 953 808 373",
-    profile: "Desarrollador Full Stack con experiencia en el desarrollo de aplicaciones web y móviles, utilizando Vue, Nuxt.js, Next.js, Astro y React Native, con TypeScript y Tailwind CSS en entornos frontend. Experiencia en backend con Laravel y .NET, así como en bases de datos MySQL, SQL Server y PostgreSQL. Trabajo en entornos Linux y Windows bajo metodologías ágiles como Scrum, con enfoque en la calidad del código y entrega de resultados."
+    profile: "Desarrollador Full Stack con experiencia en el desarrollo de aplicaciones web y móviles, utilizando Vue, Nuxt.js, Next.js, Astro y React entrada/salida Native, con TypeScript y Tailwind CSS en entornos frontend. Experiencia en backend con Laravel y .NET, así como en bases de datos MySQL, SQL Server y PostgreSQL. Trabajo en entornos Linux y Windows bajo metodologías ágiles como Scrum, con enfoque en la calidad del código y entrega de resultados."
   },
   experience: [
     {
       company: "Sunshine Export SAC",
-      period: "Diciembre 2024 – Actualidad",
+      startDate: "2024-12",
+      endDate: null, // Actualidad
       role: "Programador Full Stack",
       description: [
         "Desarrollo de aplicaciones web orientadas a la optimización de procesos internos, mejorando la eficiencia operativa de las áreas administrativas y productivas.",
@@ -23,7 +24,8 @@ export const cvData = {
     },
     {
       company: "Industrias Balinsa E.I.R.L",
-      period: "Enero 2023 – Noviembre 2024",
+      startDate: "2023-01",
+      endDate: "2024-11",
       role: "Jefe de Desarrollo de Proyecto",
       description: [
         "Liderazgo en el desarrollo de aplicaciones para uso interno y clientes externos, optimizando procesos y entregando soluciones personalizadas.",
@@ -36,19 +38,22 @@ export const cvData = {
   education: [
     {
       institution: "Universidad Tecnológica del Perú (UTP)",
-      period: "2025 – Actualidad",
+      startDate: "2025-01",
+      endDate: null, // Actualidad
       degree: "Ingeniería de Software",
       location: "Piura, Perú"
     },
     {
       institution: "SENATI",
-      period: "2023",
+      startDate: "2023-01",
+      endDate: "2023-12",
       degree: "Egresado de Ingeniería de Software con Inteligencia Artificial",
       location: "Piura, Perú"
     },
     {
       institution: "SENATI",
-      period: "2021",
+      startDate: "2021-01",
+      endDate: "2021-12",
       degree: "Inicio de Carrera Técnica Profesional",
       location: "Piura, Perú"
     }

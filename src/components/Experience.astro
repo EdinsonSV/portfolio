@@ -1,6 +1,13 @@
 ---
 import { cvData } from '../data/cv';
 import { GitBranch, GitCommit } from 'lucide-astro';
+import { DateTime } from 'luxon';
+
+const formatPeriod = (startDate: string, endDate: string | null) => {
+  const start = DateTime.fromISO(startDate).setLocale('es').toFormat('LLLL yyyy');
+  const end = endDate ? DateTime.fromISO(endDate).setLocale('es').toFormat('LLLL yyyy') : 'Actualidad';
+  return `${start.charAt(0).toUpperCase() + start.slice(1)} – ${end.charAt(0).toUpperCase() + end.slice(1)}`;
+};
 ---
 
 <section id="experience" class="section">
@@ -27,7 +34,7 @@ import { GitBranch, GitCommit } from 'lucide-astro';
               </div>
               <div class="header-meta">
                 <span class="company">{job.company}</span>
-                <span class="period">{job.period}</span>
+                <span class="period">{formatPeriod(job.startDate, job.endDate)}</span>
               </div>
             </div>
             

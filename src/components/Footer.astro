@@ -1,5 +1,6 @@
 ---
 import { cvData } from '../data/cv';
+import { DateTime } from 'luxon';
 ---
 
 <footer id="contact" class="footer section">
@@ -22,7 +23,7 @@ import { cvData } from '../data/cv';
         <span class="prompt">$</span> <span class="cmd">cat copyright.txt</span>
       </div>
       <div class="response">
-        &copy; {new Date().getFullYear()} Edinson Santos Vilchez. Todos los derechos reservados. <span class="cursor">_</span>
+        &copy; {DateTime.now().year} Edinson Santos Vilchez. Todos los derechos reservados. <span class="cursor">_</span>
       </div>
     </div>
   </div>
