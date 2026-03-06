@@ -4,17 +4,22 @@ import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
 import Experience from '../components/Experience.astro';
 import Education from '../components/Education.astro';
+import ProjectsFinder from '../components/ProjectsFinder.astro';
 import Skills from '../components/Skills.astro';
 import Footer from '../components/Footer.astro';
+import ProjectPreviewModal from '../components/ProjectPreviewModal.astro';
+import { cvData } from '../data/cv';
 ---
 
-<Layout title="Edinson Santos Vilchez - Desarrollador Full Stack">
+<Layout title={`Portafolio - ${cvData.personalInfo.name}`}>
   <Navbar />
   <main>
     <Hero />
     <Experience />
     <Skills />
+    <ProjectsFinder />
     <Education />
   </main>
   <Footer />
+  <ProjectPreviewModal />
 </Layout>

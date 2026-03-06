@@ -1,0 +1,509 @@
+---
+import { cvData } from '../data/cv';
+import { Folder, Search, ChevronRight } from 'lucide-astro';
+
+interface Project {
+  id: string;
+  name: string;
+  type: string;
+  description: string;
+  stack: string[];
+  image: string;
+  link: string | null;
+}
+
+const allProjects = cvData.projects as Record<string, Project[]>;
+const folders = Object.keys(allProjects);
+const initialFolder = folders[0] || '';
+const initialProjects = allProjects[initialFolder] || [];
+
+// Helper to get an icon based on type
+const getIconSvg = (type: string) => {
+  switch (type) {
+    case 'apk': return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="file-icon apk-icon"><path d="M5 20h14v-8.5l-6.5-6.5-6.5 6.5v8.5z"></path><path d="M10 20v-5h4v5"></path></svg>';
+    case 'exe': return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="file-icon exe-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>';
+    case 'dll': return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="file-icon dll-icon"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>';
+    default: return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="file-icon html-icon"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>';
+  }
+}
+---
+
+<section id="projects" class="section">
+  <div class="container">
+    <h2 class="section-title">Portafolio</h2>
+    
+    <div class="finder-window">
+      <!-- Title Bar -->
+      <div class="finder-header">
+        <div class="finder-buttons">
+          <span class="close"></span>
+          <span class="minimize"></span>
+          <span class="maximize"></span>
+        </div>
+        <div class="finder-controls">
+          <ChevronRight size={18} class="control-icon disabled" />
+          <span class="finder-title desktop-only" id="current-folder-title">{initialFolder}</span>
+          
+          <!-- Mobile Folder Selector -->
+          <div class="mobile-folder-selector mobile-only">
+            <select id="mobile-folder-select">
+              {folders.map((folder) => (
+                <option value={folder}>{folder}</option>
+              ))}
+            </select>
+            <ChevronRight size={14} class="select-arrow" />
+          </div>
+        </div>
+        <div class="finder-search">
+          <Search size={14} />
+          <span>Search</span>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="finder-body">
+        
+        <!-- Sidebar -->
+        <div class="finder-sidebar">
+          <div class="sidebar-section">
+            <h3 class="sidebar-heading">Ubicaciones</h3>
+            <ul class="folder-list" id="sidebar-folders">
+              {folders.map((folder, index) => (
+                <li class={`folder-item ${index === 0 ? 'active' : ''}`} data-folder={folder}>
+                  <Folder size={16} class="folder-icon" />
+                  <span>{folder}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <h3 class="sidebar-heading">Etiquetas</h3>
+            <ul class="tags-list">
+              <li><span class="tag-color react"></span> React Native</li>
+              <li><span class="tag-color dotnet"></span> .NET</li>
+              <li><span class="tag-color vue"></span> Vue.js</li>
+              <li><span class="tag-color laravel"></span> Laravel</li>
+              <li><span class="tag-color sap"></span> SAP Integration</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Grid View (Files) -->
+        <div class="finder-content" id="finder-grid">
+          {initialProjects.map((project: Project) => (
+             <div class="file-item js-project-file" data-project={JSON.stringify(project)}>
+               <div class="file-icon-wrapper" set:html={getIconSvg(project.type)} />
+               <span class="file-name">{project.name}</span>
+             </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Include map for JS context -->
+<!-- Include map for JS context -->
+<script id="projects-data" type="application/json" set:html={JSON.stringify(allProjects)}></script>
+
+<script>
+  interface Project {
+    id: string;
+    name: string;
+    type: string;
+    description: string;
+    stack: string[];
+    image: string;
+    link: string | null;
+  }
+
+  interface ProjectsData {
+    [key: string]: Project[];
+  }
+
+  const dataScript = document.getElementById('projects-data');
+  if (dataScript) {
+    const allProjectsData = JSON.parse(dataScript.textContent || '{}') as ProjectsData;
+    const folderItems = document.querySelectorAll('.folder-item');
+    const mobileSelect = document.getElementById('mobile-folder-select') as HTMLSelectElement;
+    const finderGrid = document.getElementById('finder-grid');
+    const titleHeader = document.getElementById('current-folder-title');
+    
+    // SVG Helper identical to the server-side one
+    const getIconSvg = (type: string) => {
+      switch (type) {
+        case 'apk': return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" class="file-icon apk-icon"><path d="M5 20h14v-8.5l-6.5-6.5-6.5 6.5v8.5z"></path><path d="M10 20v-5h4v5"></path></svg>';
+        case 'exe': return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" class="file-icon exe-icon"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>';
+        case 'dll': return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" class="file-icon dll-icon"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>';
+        default: return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" stroke-width="2" fill="none" class="file-icon html-icon"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>';
+      }
+    };
+
+    const updateFolder = (folderName: string) => {
+      // Update sidebar active class
+      folderItems.forEach(f => {
+        if (f.getAttribute('data-folder') === folderName) f.classList.add('active');
+        else f.classList.remove('active');
+      });
+
+      // Update mobile select if it exists
+      if (mobileSelect) mobileSelect.value = folderName;
+
+      // Update title
+      if (titleHeader) titleHeader.textContent = folderName;
+      
+      const projects = allProjectsData[folderName] || [];
+      
+      // Render new grid
+      if (finderGrid) {
+        finderGrid.innerHTML = projects.map(project => `
+          <div class="file-item js-project-file" data-project='${JSON.stringify(project).replace(/'/g, "&#39;")}'>
+             <div class="file-icon-wrapper">${getIconSvg(project.type)}</div>
+             <span class="file-name">${project.name}</span>
+          </div>
+        `).join('');
+        
+        attachFileListeners();
+      }
+    };
+
+    folderItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const folderName = item.getAttribute('data-folder');
+        if (folderName) updateFolder(folderName);
+      });
+    });
+
+    if (mobileSelect) {
+      mobileSelect.addEventListener('change', (e) => {
+        const folderName = (e.target as HTMLSelectElement).value;
+        if (folderName) updateFolder(folderName);
+      });
+    }
+
+    function attachFileListeners() {
+      document.querySelectorAll('.js-project-file').forEach(file => {
+        file.addEventListener('dblclick', () => {
+          const projectDataStr = file.getAttribute('data-project');
+          if (projectDataStr) {
+            const projectData = JSON.parse(projectDataStr) as Project;
+            // Dispatch custom event to open modal
+            const event = new CustomEvent('open-project-modal', { 
+               detail: projectData,
+               bubbles: true,
+               composed: true 
+            });
+            window.dispatchEvent(event);
+          }
+        });
+      });
+    }
+    
+    // Attach initial listeners
+    attachFileListeners();
+  }
+</script>
+
+<style>
+  .finder-window {
+    background: rgba(30,30,30, 0.85); /* Dark base */
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    height: 600px; /* fixed height for finder feel */
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .finder-header {
+    height: 52px;
+    background: linear-gradient(to bottom, rgba(60,60,60,0.6), rgba(45,45,45,0.6));
+    border-bottom: 1px solid rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .finder-buttons {
+    display: flex;
+    gap: 8px;
+    width: 70px; /* space placeholder */
+  }
+
+  .finder-buttons span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: block;
+    box-shadow: inlay 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  .close { background: #ff5f56; border: 1px solid #e0443e; }
+  .minimize { background: #ffbd2e; border: 1px solid #dea123; }
+  .maximize { background: #27c93f; border: 1px solid #1aab29; }
+
+  .finder-controls {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+    gap: 16px;
+    pointer-events: none;
+  }
+
+  .control-icon {
+    color: var(--color-text-muted);
+  }
+  
+  .finder-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #e5e5e5;
+    letter-spacing: 0.5px;
+  }
+
+  .finder-search {
+    width: 150px;
+    height: 28px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    gap: 6px;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+  }
+
+  /* Body Layout */
+  .finder-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* Sidebar */
+  .finder-sidebar {
+    width: 200px; /* narrowed slightly */
+    background: rgba(255,255,255,0.02);
+    border-right: 1px solid rgba(0,0,0,0.3);
+    padding: 1rem 0;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar-heading {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    padding: 0 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+  }
+
+  .folder-list, .tags-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .folder-item {
+    padding: 8px 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #d1d1d1;
+    font-size: 0.85rem;
+    cursor: pointer;
+    user-select: none;
+    line-height: 1.2;
+    transition: background 0.2s;
+  }
+
+  .folder-item:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .folder-item.active {
+    background: rgba(4, 116, 192, 0.8);
+    color: white;
+  }
+
+  .folder-icon {
+    color: #3b82f6; 
+    fill: #3b82f6;
+    opacity: 0.9;
+    flex-shrink: 0;
+  }
+
+  .tags-list li {
+    padding: 6px 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: #d1d1d1;
+    cursor: default;
+  }
+
+  .tag-color {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .tag-color.react { background: #61dafb; box-shadow: 0 0 5px rgba(97, 218, 251, 0.4); }
+  .tag-color.dotnet { background: #512bd4; box-shadow: 0 0 5px rgba(81, 43, 212, 0.4); }
+  .tag-color.vue { background: #42b883; box-shadow: 0 0 5px rgba(66, 184, 131, 0.4); }
+  .tag-color.laravel { background: #ff2d20; box-shadow: 0 0 5px rgba(255, 45, 32, 0.4); }
+  .tag-color.sap { background: #fdb913; box-shadow: 0 0 5px rgba(253, 185, 19, 0.4); }
+
+  /* Content Grid */
+  .finder-content {
+    flex: 1;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1.5rem;
+    align-content: flex-start;
+    overflow-y: auto;
+    background: #1a1a1a; 
+  }
+
+  /* Content Grid - Global Styles for dynamic content */
+  :global(.file-item) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 12px 8px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    width: 100%;
+    max-width: 140px;
+    justify-self: center;
+  }
+
+  :global(.file-item:hover) {
+    background: rgba(255,255,255,0.08);
+  }
+
+  :global(.file-item:active) {
+    background: rgba(4, 116, 192, 0.3);
+  }
+
+  :global(.file-icon-wrapper) {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+    transition: transform 0.2s;
+  }
+
+  :global(.file-item:hover .file-icon-wrapper) {
+    transform: translateY(-2px);
+  }
+
+  :global(.file-name) {
+    color: #f0f0f0;
+    font-size: 0.75rem;
+    text-align: center;
+    width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
+    line-height: 1.3;
+    max-height: 2.6rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+
+  /* File Icons specifics */
+  :global(.apk-icon) { color: #3ddc84; } 
+  :global(.exe-icon) { color: #00a2ed; } 
+  :global(.dll-icon) { color: #b0b0b0; } 
+  :global(.html-icon) { color: #ff6d00; } 
+
+  /* Mobile Selector */
+  .mobile-folder-selector {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 2px 8px;
+    gap: 4px;
+  }
+
+  .mobile-folder-selector select {
+    background: transparent;
+    border: none;
+    color: #e5e5e5;
+    font-size: 0.85rem;
+    font-weight: 600;
+    appearance: none;
+    cursor: pointer;
+    padding-right: 15px;
+    outline: none;
+    max-width: 150px;
+    text-overflow: ellipsis;
+  }
+
+  .select-arrow {
+    position: absolute;
+    right: 8px;
+    pointer-events: none;
+    color: rgba(255, 255, 255, 0.4);
+    transform: rotate(90deg);
+  }
+
+  /* Visibility Utilities */
+  .desktop-only { display: block; }
+  .mobile-only { display: none; }
+
+  @media (max-width: 768px) {
+    .desktop-only { display: none; }
+    .mobile-only { display: flex; }
+
+    .finder-sidebar {
+      display: none; 
+    }
+    .finder-window {
+      height: 500px;
+    }
+    .finder-header {
+      padding: 0 10px;
+    }
+    .finder-search {
+      display: none;
+    }
+    .finder-buttons {
+      display: none;
+    }
+    .finder-controls {
+      justify-content: flex-start;
+      pointer-events: auto;
+    }
+  }
+</style>

@@ -1,0 +1,410 @@
+---
+import { ExternalLink, Lock } from 'lucide-astro';
+---
+
+<dialog id="project-modal" class="quicklook-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-buttons">
+        <button id="close-modal-btn" class="close"></button>
+        <button class="minimize disabled"></button>
+        <button class="maximize disabled"></button>
+      </div>
+      <div class="modal-title" id="modal-title">preview_file.apk</div>
+    </div>
+    
+    <div class="modal-body">
+      <!-- Image / Preview Area -->
+      <div class="preview-area">
+        <div class="preview-image-placeholder">
+          <!-- Real image will be injected here, fallback icon or text initially -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" stroke="rgba(255,255,255,0.2)" stroke-width="1" fill="none" id="preview-icon">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <span class="preview-hint">Image preview not available</span>
+        </div>
+      </div>
+      
+      <!-- Details Panel -->
+      <div class="details-panel">
+        <h3 id="modal-name" class="project-name">Ari Sunshine</h3>
+        <p id="modal-desc" class="project-desc">
+          Aplicación móvil oficial de Sunshine disponible en tiendas...
+        </p>
+        
+        <div class="tech-stack" id="modal-stack">
+          <!-- Stack badges injected via JS -->
+          <span class="badge">React Native</span>
+        </div>
+        
+        <div class="modal-actions" id="modal-actions-container">
+          <!-- Buttons injected via JS -->
+          <a href="#" class="btn btn-primary" id="modal-link" target="_blank">
+            <ExternalLink size={16} /> Ver Proyecto
+          </a>
+          <div class="nda-badge hidden" id="modal-nda">
+            <Lock size={16} /> Código Cerrado (NDA)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  interface Project {
+    id: string;
+    name: string;
+    type: string;
+    description: string;
+    stack: string[];
+    image: string;
+    link: string | null;
+  }
+
+  const dialog = document.getElementById('project-modal') as HTMLDialogElement;
+  const closeBtn = document.getElementById('close-modal-btn');
+  
+  // Elements to populate
+  const mPreviewArea = document.querySelector('.preview-area');
+  const mTitle = document.getElementById('modal-title');
+  const mName = document.getElementById('modal-name');
+  const mDesc = document.getElementById('modal-desc');
+  const mStack = document.getElementById('modal-stack');
+  const mLink = document.getElementById('modal-link') as HTMLAnchorElement;
+  const mNda = document.getElementById('modal-nda');
+  
+  // Custom Event Listener from ProjectsFinder.astro
+  window.addEventListener('open-project-modal', ((e: Event) => {
+    const customEvent = e as CustomEvent<Project>;
+    const project = customEvent.detail;
+    if (!project || !dialog) return;
+
+    // Populate data
+    if (mTitle) mTitle.textContent = project.name;
+    if (mName) mName.textContent = project.name.split('.')[0] || project.name; // remove extension for title
+    if (mDesc) mDesc.textContent = project.description;
+    
+    // Update Image Preview
+    if (mPreviewArea) {
+      if (project.image) {
+        mPreviewArea.innerHTML = `
+          <img src="${project.image}" alt="${project.name}" class="preview-image" onload="this.classList.add('loaded')" />
+          <div class="preview-loader"></div>
+        `;
+      } else {
+        mPreviewArea.innerHTML = `
+          <div class="preview-image-placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" stroke="rgba(255,255,255,0.2)" stroke-width="1" fill="none">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            <span class="preview-hint">Image preview not available</span>
+          </div>
+        `;
+      }
+    }
+
+    // Stack badges
+    if (mStack) {
+      mStack.innerHTML = project.stack.map(tech => `<span class="badge">${tech}</span>`).join('');
+    }
+    
+    // Links / NDA
+    if (project.link) {
+      if (mLink) {
+        mLink.href = project.link;
+        mLink.classList.remove('hidden');
+      }
+      if (mNda) mNda.classList.add('hidden');
+    } else {
+      if (mLink) mLink.classList.add('hidden');
+      if (mNda) mNda.classList.remove('hidden');
+    }
+
+    dialog.showModal();
+    // Prevent scrolling on body
+    document.body.style.overflow = 'hidden';
+  }) as EventListener);
+
+  // Close logic
+  const closeModal = () => {
+    if (dialog) {
+      dialog.close();
+      document.body.style.overflow = '';
+    }
+  };
+
+  closeBtn?.addEventListener('click', closeModal);
+  
+  // Close on backdrop click
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) {
+      closeModal();
+    }
+  });
+
+  // Close on Escape key is handled natively by <dialog>, we just need to reset overflow
+  dialog?.addEventListener('close', () => {
+    document.body.style.overflow = '';
+  });
+</script>
+
+<style>
+  .quicklook-modal {
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    max-width: 800px;
+    width: 95%; /* More room on mobile */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    overflow: hidden; /* Hide scrollbars on the dialog itself */
+  }
+
+  /* Force box-sizing everywhere */
+  .quicklook-modal *, .quicklook-modal *:before, .quicklook-modal *:after {
+    box-sizing: border-box;
+  }
+
+  .quicklook-modal::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+  }
+
+  .modal-content {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    color: #e5e5e5;
+  }
+
+  /* macOS Style Header */
+  .modal-header {
+    background: rgba(45, 45, 45, 0.9);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    position: relative;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+
+  .modal-buttons {
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    left: 16px;
+  }
+
+  .modal-buttons button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  .close { background: #ff5f56; border: 1px solid #e0443e; }
+  .close:hover { filter: brightness(0.8); }
+  .minimize { background: #ffbd2e; border: 1px solid #dea123; opacity: 0.5; cursor: default !important; }
+  .maximize { background: #27c93f; border: 1px solid #1aab29; opacity: 0.5; cursor: default !important; }
+
+  .modal-title {
+    flex: 1;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    color: #a0a0a0;
+    padding: 0 60px; /* Space for the absolute buttons */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Ensure it doesn't push the width */
+    min-width: 0;
+  }
+
+  .modal-body {
+    display: flex;
+    flex-direction: row;
+    max-height: 85vh; /* Limit height for mobile viewports */
+    overflow-y: auto;
+    overflow-x: hidden; /* Prevent horizontal scroll in body */
+  }
+
+  .preview-area {
+    flex: 2; /* takes more space than details */
+    background: rgba(15, 15, 15, 0.6); /* very dark for image pop */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-right: 1px solid rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+
+  :global(.preview-image) {
+    max-width: 100%;
+    max-height: 450px;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  :global(.preview-image.loaded) {
+    opacity: 1;
+  }
+
+  .preview-image-placeholder {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16/9;
+    border: 1px dashed rgba(255,255,255,0.1);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: rgba(255,255,255,0.3);
+  }
+
+  .preview-hint {
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+  }
+
+  .details-panel {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: rgba(30, 30, 30, 0.5); /* slightly lighter than preview */
+    min-width: 450px; /* Smaller desktop min-width */
+  }
+
+  @media (max-width: 768px) {
+    .quicklook-modal {
+      width: 95%;
+    }
+    .modal-body {
+      flex-direction: column;
+    }
+    .preview-area {
+      min-width: unset;
+      width: 100%;
+      min-height: 200px;
+      padding: 1rem;
+      border-right: none;
+      border-bottom: 1px solid rgba(0,0,0,0.5);
+    }
+    .details-panel {
+      width: 100%;
+      min-width: unset;
+      padding: 1.5rem;
+    }
+    :global(.preview-image) {
+      max-height: 300px; /* Further reduced for mobile */
+    }
+    .project-name {
+      font-size: 1.25rem;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+    }
+  }
+
+  .project-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: #fff;
+  }
+
+  .project-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #c0caf5; /* blueish text */
+    margin: 0;
+  }
+
+  .tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .badge {
+    background: rgba(4, 116, 192, 0.2);
+    border: 1px solid rgba(4, 116, 192, 0.5);
+    color: #7aa2f7;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: var(--font-mono);
+  }
+
+  .modal-actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: #035b96;
+  }
+
+  .nda-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    background: rgba(255, 95, 86, 0.1);
+    color: #ff5f56;
+    border: 1px dashed rgba(255, 95, 86, 0.3);
+    font-size: 0.9rem;
+    font-weight: 600;
+    user-select: none;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+</style>

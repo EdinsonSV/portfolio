@@ -4,7 +4,6 @@ export const cvData = {
     role: "Desarrollador Full Stack",
     location: "Piura, Perú",
     email: "edinsonsanvil@gmail.com",
-    phone: "+51 953 808 373",
     profile: "Desarrollador Full Stack con experiencia en el desarrollo de aplicaciones web y móviles, utilizando Vue, Nuxt.js, Next.js, Astro y React entrada/salida Native, con TypeScript y Tailwind CSS en entornos frontend. Experiencia en backend con Laravel y .NET, así como en bases de datos MySQL, SQL Server y PostgreSQL. Trabajo en entornos Linux y Windows bajo metodologías ágiles como Scrum, con enfoque en la calidad del código y entrega de resultados."
   },
   experience: [
@@ -58,11 +57,80 @@ export const cvData = {
       location: "Piura, Perú"
     }
   ],
+  projects: {
+    "Sunshine Export S.A.C.": [
+      {
+        id: "ari_sunshine",
+        name: "ARI Sunshine.apk",
+        type: "apk",
+        description: "Aplicación móvil oficial de Sunshine para el acceso a recursos internos, gestión de información y asistencia. Publicada en Google Play Store.",
+        stack: ["React Native", "Expo", ".NET", "SQL Server"],
+        image: "/projects/ari_sunshine.png",
+        link: "https://play.google.com/store/apps/details?id=com.arisunshine.app&hl=es_PE"
+      }
+    ],
+    "Industrias Balinsa E.I.R.L.": [
+      {
+        id: "saucedo_desktop",
+        name: "Saucedo_ERP.exe",
+        type: "exe",
+        description: "Sistema de escritorio para el registro preciso de ventas en camal, optimizando la captura de datos en tiempo real.",
+        stack: ["Python", "QtDesigner", "MySQL"],
+        image: "/projects/saucedo_desktop.png",
+        link: null
+      },
+      {
+        id: "saucedo_web",
+        name: "Saucedo_Web_Panel.html",
+        type: "html",
+        description: "Panel web administrativo para la gestión de cuentas, análisis de merma y eficiencia en el despacho de productos avícolas.",
+        stack: ["Vue.js", "Laravel", "MySQL"],
+        image: "/projects/saucedo_web.png",
+        link: 'https://avicolasaucedo.com/'
+      },
+      {
+        id: "brialemagi_desktop",
+        name: "Brialemagi_Sistema.exe",
+        type: "exe",
+        description: "Sistema avanzado de gestión para registro de ventas, cuentas de proveedores, planilla de trabajadores y control de caja chica.",
+        stack: ["Python", "QtDesigner", "MySQL"],
+        image: "/projects/brialemagi_desktop.png",
+        link: null
+      },
+      {
+        id: "brialemagi_web",
+        name: "Brialemagi_Dashboard.html",
+        type: "html",
+        description: "Dashboard web para el análisis de rentabilidad, seguimiento de auditoría de pedidos y supervisión financiera de la empresa.",
+        stack: ["Vue.js", "Laravel", "MySQL"],
+        image: "/projects/brialemagi_web.png",
+        link: 'https://avicolabrialemagi.com/login'
+      },
+      {
+        id: "united_desktop",
+        name: "UnitedOcean_Produccion.exe",
+        type: "exe",
+        description: "Aplicación de escritorio para la industria pesquera que registra detalladamente el producto procesado por cada trabajador.",
+        stack: ["Python", "QtDesigner", "MySQL"],
+        image: "/projects/united_desktop.png",
+        link: null
+      },
+      {
+        id: "seacorp_web",
+        name: "UnitedOcean_Admin.html",
+        type: "html",
+        description: "Portal administrativo para el cálculo automático de pagos por productividad y generación de reportes diarios de eficiencia pesquera.",
+        stack: ["Vue.js", "Laravel", "MySQL"],
+        image: "/projects/united_web.png",
+        link: 'https://sistemabalanza.unioceans.com.pe/login'
+      }
+    ]
+  },
   skills: {
     frontend: ["Vue.js", "Nuxt.js", "Next.js", "Astro", "TypeScript", "Tailwind CSS"],
-    mobile: ["React Native", "Expo", "Android", "iOS"],
+    mobile: ["React Native", "Expo Go", "Android", "iOS"],
     backend: ["Laravel", ".NET", "Node.js"],
-    database: ["MySQL", "SQL Server", "PostgreSQL"],
+    database: ["MySQL", "SQL Server", "PostgreSQL", "WatermelonDB"],
     tools: ["Linux", "Windows", "Git", "Scrum", "SAP Integration"]
   }
 };
