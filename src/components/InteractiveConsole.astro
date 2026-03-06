@@ -1,0 +1,337 @@
+---
+import { DateTime } from 'luxon';
+// InteractiveConsole.astro
+---
+
+<div id="interactive-console-overlay" class="console-overlay hidden">
+  <div class="console-window">
+    <div class="console-header">
+      <div class="console-buttons">
+        <span class="close" id="close-console"><span class="btn-icon">×</span></span>
+        <span class="minimize"><span class="btn-icon">−</span></span>
+        <span class="maximize"><span class="btn-icon expand">⤢</span></span>
+      </div>
+      <div class="console-title">root@edinson:~</div>
+    </div>
+    
+    <div class="console-body" id="console-body">
+      <div class="startup-text">
+        <p>EDINSON OS [Versión 1.0.0]</p>
+        <p>(c) {DateTime.now().year} Edinson Santos Vilchez. Todos los derechos reservados.</p>
+        <p>Escribe <span class="highlight">'help'</span> para ver los comandos disponibles.</p>
+        <br/>
+      </div>
+      
+      <div class="output-history" id="output-history"></div>
+      
+      <div class="input-line">
+        <span class="prompt">root@edinson:~$</span>
+        <input type="text" id="console-input" class="console-input" autocomplete="off" spellcheck="false" autofocus />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById('interactive-console-overlay');
+  const closeBtn = document.getElementById('close-console');
+  const input = document.getElementById('console-input') as HTMLInputElement;
+  const history = document.getElementById('output-history');
+  const body = document.getElementById('console-body');
+
+  let consoleOpen = false;
+
+  // Toggle console with backtick key (`) or tilde (~)
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === '`' || e.key === '~' || (e.ctrlKey && e.key === 'k')) && !e.repeat) {
+      e.preventDefault();
+      toggleConsole();
+    }
+  });
+
+  closeBtn?.addEventListener('click', () => {
+    if (consoleOpen) toggleConsole();
+  });
+
+  // Keep focus on input when clicking inside console
+  body?.addEventListener('click', () => {
+    if (consoleOpen) input?.focus();
+  });
+
+  function toggleConsole() {
+    consoleOpen = !consoleOpen;
+    if (consoleOpen) {
+      overlay?.classList.remove('hidden');
+      document.body.style.overflow = 'hidden'; // prevent scrolling
+      setTimeout(() => input?.focus(), 100);
+    } else {
+      overlay?.classList.add('hidden');
+      document.body.style.overflow = '';
+      input?.blur();
+    }
+  }
+
+  const commands: Record<string, () => string | void> = {
+    help: () => `
+      <div class="cmd-response">
+        <div>Comandos disponibles:</div>
+        <div class="cmd-list">
+          <div><span class="cmd-name">whoami</span><span>- Muestra información del usuario</span></div>
+          <div><span class="cmd-name">skills</span><span>- Lista mis habilidades técnicas principales</span></div>
+          <div><span class="cmd-name">clear</span><span>- Limpia la consola</span></div>
+          <div><span class="cmd-name">github</span><span>- Abre mi perfil de GitHub</span></div>
+          <div><span class="cmd-name">linkedin</span><span>- Abre mi perfil de LinkedIn</span></div>
+          <div><span class="cmd-name">sudo hire edinson</span><span>- ?????</span></div>
+        </div>
+      </div>
+    `,
+    whoami: () => `
+      <div class="cmd-response">
+        Edinson Santos Vilchez<br/>
+        Desarrollador Full Stack<br/>
+        Apasionado por crear soluciones eficientes y escalables.
+      </div>
+    `,
+    skills: () => `
+      <div class="cmd-response">
+        <span style="color: #61dafb">Mobile:</span> React Native, Expo<br/>
+        <span style="color: #00dbb5">Frontend:</span> Vue.js, Nuxt.js, Next.js, Astro, Tailwind<br/>
+        <span style="color: #0474C0">Backend:</span> Laravel, .NET, Node.js<br/>
+        <span style="color: #ff0055">Database:</span> MySQL, SQL Server, PostgreSQL
+      </div>
+    `,
+    clear: () => {
+      if (history) history.innerHTML = '';
+      return '';
+    },
+    github: () => {
+      window.open('https://github.com/EdinsonSV', '_blank');
+      return '<div class="cmd-response">Abriendo GitHub...</div>';
+    },
+    linkedin: () => {
+      window.open('https://www.linkedin.com/in/edinson-santos-vilchez-939209249/', '_blank');
+      return '<div class="cmd-response">Abriendo LinkedIn...</div>';
+    },
+    'sudo hire edinson': () => {
+      // Matrix effect maybe? or just a big success message
+      setTimeout(() => {
+        window.location.hash = '#contact';
+        toggleConsole();
+      }, 2000);
+      return `
+        <div class="cmd-response" style="color: #27c93f; font-weight: bold;">
+          [OK] Permisos de superusuario concedidos.<br/>
+          [OK] Inicializando protocolo de contratación...<br/>
+          Redirigiendo a contacto...
+        </div>
+      `;
+    },
+    'sudo rm -rf /': () => {
+      return `
+        <div class="cmd-response" style="color: #ff5f56;">
+          Permiso denegado. ¡Buen intento! 😉
+        </div>
+      `;
+    }
+  };
+
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const val = input.value.trim().toLowerCase();
+      if (!val) return;
+
+      // Print the command executed
+      const cmdElement = document.createElement('div');
+      cmdElement.className = 'input-line history-line';
+      cmdElement.innerHTML = `<span class="prompt">root@edinson:~$</span> <span class="command-text">${val}</span>`;
+      history?.appendChild(cmdElement);
+
+      // Try to execute
+      if (commands[val]) {
+        const response = commands[val]();
+        if (response) {
+          const respElement = document.createElement('div');
+          respElement.innerHTML = response as string;
+          history?.appendChild(respElement);
+        }
+      } else {
+        const errorElement = document.createElement('div');
+        errorElement.className = 'cmd-response error';
+        errorElement.innerText = `bash: ${val}: command not found`;
+        history?.appendChild(errorElement);
+      }
+
+      input.value = '';
+      
+      // Scroll to bottom
+      if (body) body.scrollTop = body.scrollHeight;
+    }
+  });
+</script>
+
+<style>
+  .console-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .console-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .console-window {
+    width: 90%;
+    max-width: 900px;
+    height: 70vh;
+    background: rgba(15, 15, 20, 0.95);
+    border: 1px solid var(--color-primary);
+    border-radius: 8px;
+    box-shadow: 0 0 50px rgba(4, 116, 192, 0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(1);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .console-overlay.hidden .console-window {
+    transform: scale(0.95) translateY(20px);
+  }
+
+  .console-header {
+    background: #1a1b26;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .console-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .console-buttons span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .close { background: #ff5f56; }
+  .minimize { background: #ffbd2e; }
+  .maximize { background: #27c93f; }
+
+  .btn-icon {
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 1;
+    opacity: 0;
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .console-buttons:hover .btn-icon {
+    opacity: 1;
+  }
+
+  .console-title {
+    flex: 1;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .console-body {
+    flex: 1;
+    padding: 1.5rem;
+    font-family: var(--font-mono);
+    color: #c0caf5;
+    overflow-y: auto;
+    font-size: 0.95rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .startup-text p {
+    margin: 0.2rem 0;
+  }
+
+  .highlight {
+    color: var(--color-primary);
+  }
+
+  .input-line {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  :global(.history-line) {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  :global(.prompt) {
+    color: #9ece6a;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  :global(.command-text) {
+    color: #e0af68; /* Distinct yellow color for executed commands */
+    font-weight: bold;
+  }
+
+  .console-input {
+    background: transparent;
+    border: none;
+    color: #e0af68; /* Distinct yellow color for current input */
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    flex: 1;
+    outline: none;
+    caret-color: var(--color-primary);
+  }
+
+  :global(.cmd-response) {
+    padding-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #a9b1d6; /* Softer blue/grey for responses */
+    line-height: 1.6;
+  }
+
+  :global(.cmd-list) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  :global(.cmd-name) {
+    color: #7aa2f7; /* Bright blue for command names in the list */
+    width: 200px;
+    display: inline-block;
+    font-weight: bold;
+  }
+
+  .error {
+    color: #ff5f56;
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import BackgroundMatrix from '../components/BackgroundMatrix.astro';
+import InteractiveConsole from '../components/InteractiveConsole.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -26,13 +27,14 @@ const { title, description = "Portafolio de Edinson Santos Vilchez - Desarrollad
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet">
     
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     <BackgroundMatrix />
     <div class="main-content">
       <slot />
     </div>
+    <InteractiveConsole />
   </body>
 </html>
 

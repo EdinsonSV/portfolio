@@ -9,7 +9,7 @@ export const cvData = {
   },
   experience: [
     {
-      company: "Sunshine Export SAC",
+      company: "Sunshine Export S.A.C.",
       startDate: "2024-12",
       endDate: null, // Actualidad
       role: "Programador Full Stack",
@@ -23,7 +23,7 @@ export const cvData = {
       ]
     },
     {
-      company: "Industrias Balinsa E.I.R.L",
+      company: "Industrias Balinsa E.I.R.L.",
       startDate: "2023-01",
       endDate: "2024-11",
       role: "Jefe de Desarrollo de Proyecto",
