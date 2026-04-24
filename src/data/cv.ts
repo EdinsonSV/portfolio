@@ -1,10 +1,10 @@
 export const cvData = {
   personalInfo: {
     name: "Edinson Santos Vilchez",
-    role: "Ingeniero de Software",
+    role: "Desarrollador Full Stack",
     location: "Piura, Perú",
     email: "edinsonsanvil@gmail.com",
-    profile: "Ingeniero de Software con experiencia en el desarrollo de soluciones tecnológicas orientadas a mejorar y automatizar procesos dentro de entornos empresariales e industriales. Experto en la implementación de sistemas internos, integración de plataformas y automatización mediante aplicaciones web, móviles y servicios backend. Cuento con sólida experiencia coordinando proyectos de desarrollo, organizando tareas técnicas y liderando equipos bajo metodologías ágiles."
+    profile: "Desarrollador Full Stack con experiencia en el desarrollo de aplicaciones web y móviles, utilizando Vue, Nuxt.js, Next.js, Astro y React entrada/salida Native, con TypeScript y Tailwind CSS en entornos frontend. Experiencia en backend con Laravel y .NET, así como en bases de datos MySQL, SQL Server y PostgreSQL. Trabajo en entornos Linux y Windows bajo metodologías ágiles como Scrum, con enfoque en la calidad del código y entrega de resultados."
   },
   experience: [
     {
@@ -13,11 +13,12 @@ export const cvData = {
       endDate: null, // Actualidad
       role: "Programador Full Stack",
       description: [
-        "Desarrollo de aplicaciones web orientadas a la optimización de procesos internos dentro de áreas administrativas y operativas.",
-        "Integración de módulos internos con el sistema SAP mediante el desarrollo de Web APIs en .NET.",
-        "Automatización de procesos mediante la integración de dispositivos biométricos para autenticación y control de acceso.",
-        "Gestión y optimización de bases de datos SQL Server, mejorando el rendimiento de consultas y procedimientos almacenados.",
-        "Desarrollo de aplicaciones móviles con React Native para soporte a operaciones internas."
+        "Desarrollo de aplicaciones web orientadas a la optimización de procesos internos, mejorando la eficiencia operativa de las áreas administrativas y productivas.",
+        "Gestión y optimización de bases de datos SQL Server, asegurando la integridad, seguridad y alto rendimiento de la información.",
+        "Integración de módulos con el sistema SAP para garantizar la interoperabilidad entre plataformas internas.",
+        "Diseño y optimización de procedimientos almacenados, reduciendo los tiempos de respuesta en consultas y operaciones críticas.",
+        "Desarrollo de Web APIs en .NET para la integración con dispositivos biométricos, automatizando procesos de autenticación y control de acceso.",
+        "Desarrollo de aplicaciones móviles con React Native para el soporte de operaciones internas."
       ]
     },
     {
@@ -26,12 +27,10 @@ export const cvData = {
       endDate: "2024-11",
       role: "Jefe de Desarrollo de Proyecto",
       description: [
-        "Responsable de la planificación y ejecución de proyectos de desarrollo de software orientados a la automatización de procesos industriales.",
-        "Coordinación del trabajo del equipo técnico, definiendo tareas, prioridades y seguimiento del avance de los proyectos.",
-        "Diseño y desarrollo de aplicaciones de escritorio utilizadas para automatizar procesos en entornos industriales.",
-        "Participación en la definición de requerimientos técnicos junto con clientes y usuarios finales para adaptar las soluciones a sus procesos operativos.",
-        "Supervisión del desarrollo, pruebas e implementación de las soluciones tecnológicas desarrolladas por el equipo.",
-        "Capacitación y soporte técnico a usuarios durante la puesta en marcha de los sistemas implementados."
+        "Liderazgo en el desarrollo de aplicaciones para uso interno y clientes externos, optimizando procesos y entregando soluciones personalizadas.",
+        "Desarrollo de aplicaciones de escritorio enfocadas en la automatización de sistemas industriales, incrementando la eficiencia operativa.",
+        "Gestión de proyectos tecnológicos, incluyendo planificación, asignación de tareas y cumplimiento de plazos bajo metodologías ágiles como Scrum.",
+        "Supervisión y capacitación de un equipo técnico, promoviendo la mejora continua y el desarrollo profesional."
       ]
     }
   ],
@@ -128,10 +127,10 @@ export const cvData = {
     ]
   },
   skills: {
-    frontend: ["Vue", "Nuxt.js", "Next.js", "Astro", "TypeScript", "Tailwind CSS"],
-    mobile: ["React Native", "Expo"],
-    backend: ["Laravel", ".NET"],
-    database: ["MySQL", "PostgreSQL", "SQL Server", "WatermelonDB"],
-    tools: ["Linux", "Windows", "Git", "Scrum", "SAP Integration", "Automatización de procesos", "Gestión de proyectos"]
+    frontend: ["Vue.js", "Nuxt.js", "Next.js", "Astro", "TypeScript", "Tailwind CSS"],
+    mobile: ["React Native", "Expo Go", "Android", "iOS"],
+    backend: ["Laravel", ".NET", "Node.js"],
+    database: ["MySQL", "SQL Server", "PostgreSQL", "WatermelonDB"],
+    tools: ["Linux", "Windows", "Git", "Scrum", "SAP Integration"]
   }
 };
