@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>ESV</title>
+  <rect width="64" height="64" rx="18" fill="#101a2d"/>
+  <path d="M18 22h17M18 32h13M18 42h17" fill="none" stroke="#4f8cff" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M45 18c-8 0-13 4-13 9 0 6 5 8 12 10 6 2 8 4 8 8 0 6-6 10-14 10" fill="none" stroke="#f1ede5" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M44 18c5 2 8 5 9 9" fill="none" stroke="#77aaff" stroke-width="4.5" stroke-linecap="round"/>
+</svg>

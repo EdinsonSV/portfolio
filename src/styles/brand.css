@@ -1,0 +1,20 @@
+.wordmark{display:inline-flex;align-items:center;gap:9px;letter-spacing:-.06em}
+.wordmark img{padding:4px;border-radius:10px;background:#f1ede5;box-shadow:0 5px 18px rgba(79,140,255,.22),0 0 0 1px rgba(119,170,255,.8)}
+.wordmark span{color:var(--paper);margin-left:0}
+.wordmark b{color:#77aaff;font-weight:700;margin-left:-7px;text-shadow:0 0 12px rgba(119,170,255,.35)}
+.header-link,.button-primary{background:var(--blue);border-color:var(--blue)}
+.header-link{background:transparent;color:var(--paper)}
+.header-link svg,.button svg,.text-link svg,.email-link svg,.socials svg{color:var(--blue)}
+.button-primary{color:var(--ink)}
+.button-primary:hover{background:#77aaff}
+.project-mark{background:var(--blue)}
+.project-mark-outline{background:transparent;border-color:var(--blue);color:var(--blue)}
+.project-mark svg{margin-top:12px}
+.project-mark-link{text-decoration:none;cursor:pointer;transition:transform 180ms ease-out,box-shadow 180ms ease-out}
+.project-mark-link:hover{transform:scale(1.04);box-shadow:0 10px 30px rgba(79,140,255,.2)}
+.project-links{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:20px}
+.project-links a,.private-label{display:inline-flex;align-items:center;gap:4px;color:var(--paper);font:500 10px var(--mono);text-decoration:none;text-transform:uppercase;letter-spacing:.06em}
+.project-links a:hover{color:var(--blue)}
+.private-label{color:var(--muted)}
+.email-link{display:inline-flex;align-items:center;gap:7px}
+.socials a{display:inline-flex;align-items:center;gap:5px}
